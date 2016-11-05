@@ -1,0 +1,1 @@
+this is demo of traffic management with open resty, Consul, and registrator
