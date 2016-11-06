@@ -1,4 +1,4 @@
-package com.dev9.poc.service_piloted;
+package com.dev9.poc.service;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

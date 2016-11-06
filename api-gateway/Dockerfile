@@ -1,0 +1,2 @@
+FROM open-resty-base
+

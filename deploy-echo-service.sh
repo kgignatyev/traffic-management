@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOCKER_HOST=$1
+DOCKER_HOST="host$1"
 
 eval $(docker-machine env  ${DOCKER_HOST} )
 

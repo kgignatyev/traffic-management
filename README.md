@@ -9,6 +9,7 @@ https://blog.uship.com/shippingcode/connectivity-between-nginx-and-consul-templa
 docker-machine create -d virtualbox default
 docker-machine create -d virtualbox host1
 docker-machine create -d virtualbox host2
+docker-machine create -d virtualbox host3
 
 1 Start machines
 ----

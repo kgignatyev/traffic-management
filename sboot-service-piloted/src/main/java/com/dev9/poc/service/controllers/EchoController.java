@@ -1,4 +1,4 @@
-package com.dev9.poc.service_piloted.controllers;
+package com.dev9.poc.service.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

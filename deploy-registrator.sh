@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# usage deploy-registrator.sh
+# usage deploy-registrator.sh 1|2
 
-HOST_NAME=$1
-HOST_IP=$2
-CONSUL_IP=$3
+HOST_NAME="host$1"
+HOST_IP=`docker-machine ip $HOST_NAME`
+CONSUL_IP=`docker-machine ip host3`
 
 eval $(docker-machine env ${HOST_NAME})
 
