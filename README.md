@@ -69,20 +69,20 @@ Start consul-template and mount template source directory for easy debug
 
 docker run --rm  -p 8000:80  -v `pwd`/src:/etc/consul-template -ti openresty-consul-template-base:1.11.2.1 bash
 
+docker run  -d -p 8000:80 -v `pwd`/kgi-apigateway-config:/etc/consul-template voicebox/apigateway:1.0.20160919.20 consul-template -config=/etc/consul-template/consul-template.json -consul=10.45.1.211:8500
+
 inside container 
 
-export PATH=/_/root/bin:$PATH 
-this will go away when docker container will be adjusted to include consul template to be on path
 
 consul-template -config=/etc/consul-template/consul-template3.json -consul=192.168.99.100:8500 
 
 
 
 Consul UI
-http://192.168.99.100:8500
+http://192.168.99.103:8500
 
 Consul API
-http://192.168.99.100:8500/v1/catalog/services
+http://192.168.99.103:8500/v1/catalog/services
 
 
 

@@ -1,0 +1,18 @@
+{
+
+  "log_level" : "debug",
+
+  "exec": {
+        "splay": "5s",
+        "command": "/usr/local/openresty/nginx/sbin/nginx",
+        "reload_signal": "SIGHUP"
+      },
+
+  "template" : {
+     "source" : "/etc/consul-template/api-gateway.ctmpl",
+     "destination" : "/usr/local/openresty/nginx/conf/nginx.conf"
+
+
+  }
+
+}

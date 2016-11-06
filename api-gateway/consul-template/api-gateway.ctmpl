@@ -1,0 +1,92 @@
+worker_processes 1;
+events {
+    worker_connections  1024;
+}
+
+daemon off;
+
+http {
+
+
+    lua_code_cache  off;
+    lua_shared_dict realm_keys 100k;
+
+
+    sendfile        off;
+
+    keepalive_timeout  65;
+
+
+    include       mime.types;
+    default_type  application/octet-stream;
+
+
+
+
+
+        {{range services }}{{$svc_name := .Name }}
+        {{if $svc_name |regexMatch "consul(.*)"}}
+            #skipping consul service, no need to expose
+        {{else}}
+        upstream service_{{$svc_name}}  {
+               {{range service $svc_name "any"}}server  {{.Address}}:{{.Port}} ;
+               {{else}}server 127.0.0.1:65535; # force a 502{{end}}
+
+        } {{end}} {{end}}
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #        location to allow LUA code to query Identiry service via location.capture
+        location /auth {
+             proxy_set_header    Host            $host;
+             proxy_set_header    X-Real-IP       $remote_addr;
+             proxy_set_header    X-Forwarded-for $remote_addr;
+             proxy_pass http://service_keycloak_cluster;
+        }
+
+
+         location ~ /api/docs/endpoints  {
+                default_type  application/json;
+                content_by_lua_block {
+                 local i = 0;
+                 ngx.say('[');
+                 {{range services }}{{$svc_name := .Name }}
+                    if i > 0 then
+                        ngx.say(',');
+                    end
+                    ngx.say('"/api/{{$svc_name}}"');
+                    i = i + 1;
+                 {{end}}
+                 ngx.say(']');
+               }
+         }
+
+        {{range services }}{{$svc_name := .Name }}
+
+            location ~ /api/{{$svc_name}}/(.*)  {
+#                   access_by_lua_file lua/check_authentication.lua;
+
+                   proxy_http_version  1.1;
+                   proxy_set_header    Host            $host;
+                   proxy_set_header    X-Real-IP       $remote_addr;
+                   proxy_set_header    X-Forwarded-for $remote_addr;
+                   proxy_buffering     off;
+                   proxy_read_timeout  386400;
+
+                   proxy_pass http://service_{{$svc_name}}/$1$is_args$args;
+            }
+
+         {{end}}
+
+
+    }
+
+
+
+
+}
+
+
+
