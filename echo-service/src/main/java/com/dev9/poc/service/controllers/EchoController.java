@@ -18,7 +18,7 @@ import static java.lang.String.join;
 @Controller
 public class EchoController {
 
-    @RequestMapping(path = "/api/echo/*", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/headers", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     Map echo(WebRequest req) {
         Map res = new HashMap();

@@ -39,15 +39,15 @@ http {
         server_name  localhost;
 
         #        location to allow LUA code to query Identiry service via location.capture
-        location /auth {
-             proxy_set_header    Host            $host;
-             proxy_set_header    X-Real-IP       $remote_addr;
-             proxy_set_header    X-Forwarded-for $remote_addr;
-             proxy_pass http://service_keycloak_cluster;
-        }
+#        location /auth {
+#             proxy_set_header    Host            $host;
+#             proxy_set_header    X-Real-IP       $remote_addr;
+#             proxy_set_header    X-Forwarded-for $remote_addr;
+#             proxy_pass http://service_keycloak_cluster;
+#        }
 
 
-         location ~ /api/docs/endpoints  {
+         location ~ /docs/endpoints  {
                 default_type  application/json;
                 content_by_lua_block {
                  local i = 0;

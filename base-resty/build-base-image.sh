@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
+eval $(docker-machine env  default )
+
+
 CURRENTD=`pwd`
+
+rm -fR github.com/hashicorp
 
 mkdir -p github.com/hashicorp &&\
       cd  github.com/hashicorp &&\
