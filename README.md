@@ -69,6 +69,9 @@ Echo-service call
 http://192.168.99.100:8000/api/echo-service/headers
 
 
+docker-machine stop host3 host2 host1 default
+
+
 
 
 
