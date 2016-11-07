@@ -2,8 +2,8 @@ this is demo of traffic management with open resty, Consul, and registrator
 
 https://blog.uship.com/shippingcode/connectivity-between-nginx-and-consul-template/
 
-0 Create machines (if needed)
------------------------------
+0 Create machines (if necessary)
+--------------------------------
 
 
 docker-machine create -d virtualbox default
@@ -11,8 +11,15 @@ docker-machine create -d virtualbox host1
 docker-machine create -d virtualbox host2
 docker-machine create -d virtualbox host3
 
+
 1 Start machines
 ----
+
+docker-machine start default
+docker-machine start host1
+docker-machine start host2
+docker-machine start host3
+
 
 <pre>
 NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
@@ -51,37 +58,15 @@ http://gliderlabs.com/registrator/latest/
 -------------------------------
 
 
-build base image for OpenResty ( https://openresty.org ) 
-and consul-template ( https://github.com/hashicorp/consul-template )
-( as of 2016-11-05 requires 0.17 to be compiled to get -exec )
-<pre>
-cd nginx-template
-eval $(docker-machine env default)
-docker build -t openresty-consul-template-base .
-</pre>
-
-or latest 
-docker build -t openresty-consul-template-base:1.11.2.1 -f Dockerfile2 .
-
-
-Start consul-template and mount template source directory for easy debug
-
-
-docker run  -d -p 8000:80 -v `pwd`/kgi-apigateway-config:/etc/consul-template voicebox/apigateway:1.0.20160919.20 consul-template -config=/etc/consul-template/consul-template.json -consul=10.45.1.211:8500
-
-inside container 
-
-
-consul-template -config=/etc/consul-template/consul-template3.json -consul=192.168.99.100:8500 
-
-
-
 Consul UI
 http://192.168.99.103:8500
 
 Consul API
 http://192.168.99.103:8500/v1/catalog/services
 
+
+Echo-service call
+http://192.168.99.100:8000/api/echo-service/headers
 
 
 
