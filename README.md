@@ -1,6 +1,6 @@
 this is demo of traffic management with open resty, Consul, and registrator
 
-https://blog.uship.com/shippingcode/connectivity-between-nginx-and-consul-template/
+
 
 0 Create machines (if necessary)
 --------------------------------
@@ -29,6 +29,16 @@ host2     -        virtualbox   Running   tcp://192.168.99.102:2376           v1
 host3     -        virtualbox   Running   tcp://192.168.99.103:2376           v1.12.1
 </pre>   
 
+  (regenerate certs if necessary docker-machine regenerate-certs default host1 host2 host3 )
+  
+1.1 Build parts
+------
+cd base-resty; ./build-base-image.sh; cd -
+
+cd api-gateway; ./build-gateway-image.sh; cd -
+  
+  
+  
 2 Start Consul
 ----
 eval $(docker-machine env host3)
@@ -45,7 +55,7 @@ http://gliderlabs.com/registrator/latest/
 
 
    at this time we can see that consul console show only consul service at
-    http://192.168.99.103:8500/ui/#/vbtdev/services
+    http://192.168.99.103:8500
 
 4 Deploy echo service on one or 2 hosts
 ---------------------------------------
@@ -69,7 +79,42 @@ Echo-service call
 http://192.168.99.100:8000/api/echo-service/headers
 
 
+we can manage registration info by simply specifying different environment 
+variables
+docker run --rm  -P \
+    -e "SERVICE_NAME=echo-service-test" \
+    -e "SERVICE_TAGS=http,v1-candidate" \
+    echo-service
+
+
 docker-machine stop host3 host2 host1 default
+
+
+Useful Links
+------
+
+https://blog.uship.com/shippingcode/connectivity-between-nginx-and-consul-template/
+
+http://blog.cloud66.com/9-crtitical-decisions-needed-to-run-docker-in-production/
+
+https://www.consul.io/
+
+https://github.com/hashicorp/consul-template
+
+https://openresty.org/en/
+
+https://github.com/hashicorp/envconsul
+
+
+https://studio.zerobrane.com/
+Debugging Lua on nginx server
+http://notebook.kulchenko.com/zerobrane/debugging-openresty-nginx-lua-scripts-with-zerobrane-studio
+
+
+
+Register a service manually
+
+
 
 
 
