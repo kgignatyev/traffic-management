@@ -7,6 +7,8 @@ eval $(docker-machine env  ${DOCKER_HOST} )
 mvn -f echo-service/pom.xml  package
 docker build -t echo-service echo-service
 
+tt "echo$1"
+
 docker run --rm  -P \
     -e "SERVICE_NAME=echo-service" \
     -e "SERVICE_TAGS=http,v1" \

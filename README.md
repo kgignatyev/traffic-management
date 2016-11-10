@@ -114,7 +114,8 @@ http://notebook.kulchenko.com/zerobrane/debugging-openresty-nginx-lua-scripts-wi
 
 Register a service manually
 
-
+curl -X PUT 192.168.99.104:8500/v1/catalog/register \
+  --data @register-service.json
 
 
 
